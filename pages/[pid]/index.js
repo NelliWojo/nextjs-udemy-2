@@ -19,6 +19,10 @@ export async function getStaticProps(context) {
 
   const product = data.products.find((product) => product.id === productId);
 
+  if (!product) {
+    return { notFound: true };
+  }
+
   return {
     props: {
       loadedProduct: product,
@@ -43,7 +47,7 @@ export async function getStaticPaths() {
       { params: { pid: "p2" } },
       { params: { pid: "p3" } },
     ], */
-    fallback: false,
+    fallback: true,
     /* when there are a lot of pages (like amazon)
     w/ fallback: true we will pre-generate most visited pages
     and generate all other pages on client request only, */
