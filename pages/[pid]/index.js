@@ -26,15 +26,25 @@ export async function getStaticPaths() {
   return {
     paths: [
       { params: { pid: "p1" } },
-      { params: { pid: "p2" } },
-      { params: { pid: "p3" } },
+      /*  { params: { pid: "p2" } },
+      { params: { pid: "p3" } }, */
     ],
-    fallback: false,
+    /* when there are a lot of pages (like amazon)
+    w/ fallback: true we will pre-generate most visited pages
+    and generate all other pages on client request only, */
+    fallback: true,
+    // fallback: 'blocking',
+    // w/ fallback blocking no need to add Loading... (lines 45-47)
   };
 }
 
 export default function ProductDetailsPage(props) {
   const { loadedProduct } = props;
+
+  // like useEffect() in React, we add Loading the time the page is charged
+  if (!loadedProduct) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <Fragment>
